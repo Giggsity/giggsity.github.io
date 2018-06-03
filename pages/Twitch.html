@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Twitch</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+  <script>
+
+  function createCard(title, text, logo, online) {
+
+    var newRow  = document.createElement('div');
+    newRow.className += "col-auto mb-3";
+
+    var newCard  = document.createElement('div');
+    newCard.className += "card";
+    newCard.style.width = "30rem";
+    if (online) {
+      newCard.style.backgroundColor = 'green';
+    } else {
+      newCard.style.opacity = "0.5";
+    }
+
+    var newLogo = document.createElement('img');
+    newLogo.src = logo;
+    newLogo.setAttribute('height', '75px');
+    newLogo.setAttribute('width', '75px');
+    newLogo.onclick = function() {
+      window.open('https://www.twitch.tv/' + title,'_blank');
+    };
+
+    var newCardBody = document.createElement('div');
+    newCardBody.className += "card-body";
+
+    var newTitle = document.createElement('h5');
+    newTitle.className += "card-title";
+    newTitle.innerHTML = " " + title;
+
+    //var newSubtitle = document.createElement('h6');
+    //newSubtitle.className += "card-subtitle";
+    //newSubtitle.innerHTML = subtitle;
+
+    var newText = document.createElement('h7');
+    newText.className += "card-text";
+    newText.innerHTML = text;
+
+
+    newTitle.prepend(newLogo);
+    newCardBody.appendChild(newTitle);
+    //newCardBody.appendChild(newSubtitle);
+    newCardBody.appendChild(newText);
+    newCard.appendChild(newCardBody);
+    newRow.appendChild(newCard);
+
+    if (online) {
+      document.getElementById("display").prepend(newRow);
+    } else {
+      document.getElementById("display").appendChild(newRow);
+    }
+
+  }
+
+  function callUsers(str) {
+    $.ajax({
+      type:"GET",
+      url:str,
+      async:false,
+      dataType: "json",
+      success:function(x){
+        names.push(x.display_name);
+        //bios.push(x.bio);
+        logos.push(x.logo);
+      },
+      error: function(errorMessage) {alert("An error occurred. Please try again.")}
+    });
+  }
+
+  function callStreams(str) {
+    $.ajax({
+      type:"GET",
+      url:str,
+      async:false,
+      dataType: "json",
+      success:function(y){
+        if (y.stream == null) {
+          online.push(false);
+          bios.push("Offline");
+        } else {
+          online.push(true);
+          bios.push(y.stream.game + "---" + y.stream.channel.status);
+        }
+      },
+      error: function(errorMessage) {alert("An error occurred. Please try again.")}
+    });
+  }
+
+    var streamers = ["freecodecamp", "kindafunnygames", "teawrex", "professorbroman", "kinggothalion"];
+    var names = [];
+    var bios = [];
+    var logos = [];
+    var online = [];
+    var url;
+
+    $(document).ready(function() {
+      for (i=0; i<streamers.length; i++) {
+        url = "https://wind-bow.glitch.me/twitch-api/users/" + streamers[i];
+        callUsers(url);
+        url = "https://wind-bow.glitch.me/twitch-api/streams/" + streamers[i];
+        callStreams(url);
+
+        if (online[i]) {
+          var info;
+
+          createCard(names[i], bios[i], logos[i], online[i]);
+        } else {
+          createCard(names[i], bios[i], logos[i], online[i]);
+        }
+
+      }
+
+      console.log(names);
+      console.log(bios);
+      console.log(logos);
+      console.log(online);
+    });
+
+
+  </script>
+
+
+
+
+</head>
+
+<body>
+  <div class="row justify-content-center">
+    <div id="display" class="col-4">
+    </div>
+  </div>
+
+</body>
+</html>
