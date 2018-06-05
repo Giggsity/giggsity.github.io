@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Weather</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+
+    function titleCase(str) {
+      var array = str.toLowerCase().split(" ");
+      for(var i = 0; i < array.length; i++) {
+        array[i] = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+      }
+      return array.join(" ");
+    }
+
+    function changeTemp(num) {
+      var n;
+      if (isCelsius) {
+        n = num * 1.8 + 32;
+      } else {
+        n = (num - 32) * .5556;
+      };
+      isCelsius = !isCelsius;
+      return Math.floor(n);
+    }
+
+    function displayTempScale(bool) {
+      if (bool) {
+        return "  &deg;C";
+      } else {
+        return "  &deg;F";
+      }
+    }
+
+    var isCelsius = true;
+    var temperature;
+
+    $(document).ready(function() {
+      $("#changeTemp").click(function(){
+        temperature = changeTemp(temperature);
+        $("#temperature").html(temperature + displayTempScale(isCelsius));
+      });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var y = position.coords.latitude.toFixed(2);
+          var x = position.coords.longitude.toFixed(2);
+          var z = "https://fcc-weather-api.glitch.me/api/current?lat=" + y + "&lon=" + x;
+          $.getJSON(z, function(json) {
+            var data = JSON.parse(JSON.stringify(json));
+            var arr = data.weather;
+            $("#location").html(data.name);
+            $("#description").html(titleCase(data.weather[0].description));
+            document.getElementById("weatherIcon").src = data.weather[0].icon;
+            temperature = Math.floor(data.main.temp);
+            $("#temperature").html(temperature + displayTempScale(isCelsius));
+            document.getElementById("changeTemp").style.display = "";
+            });
+          });
+        };
+      });
+  </script>
+
+
+</head>
+
+<body>
+  <div class="row justify-content-center">
+    <div class="col-4">
+        <div class="card col align-self-center">
+          <div class="card-body">
+            <h4 id="location" class="card-title"></h4>
+            <h5 id="description" class="card-subtitle mb-2 text-muted">Please click to allow location information.</h5>
+            <h6 id="icon"><img id="weatherIcon" src=""></h6>
+            <h7 id="temperature"></h7><br>
+            <h8 id="tempButton"><button id="changeTemp" class="btn btn-warning" style="display: none;">&deg;C/&deg;F</button></h8>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Random Quote Generator</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $("#getQuote").click(function(){
+        $.getJSON("https://talaikis.com/api/quotes/random/", function(x) {
+          $("#quoteText").html(x.quote);
+          $("#quoteAuthor").html(x.author);
+        });
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+  <div class="row justify-content-center">
+    <div class="col-4">
+        <div class="card col align-self-center">
+          <div class="card-body">
+            <h5 id="quoteText" class="card-title"></h5>
+            <h6 id="quoteAuthor" class="card-subtitle mb-2 text-muted"></h6>
+            <button id="getQuote" class="btn btn-warning">Get Quote</button>
+
+    </div>
+
+  <div class="footer">
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <!--<br>By <a href="https://github.com/Giggsity">Giggsity</a>-->
+    <br><a class="twitter-follow-button" data-show-count="false" href="https://twitter.com/Giggsity"> Follow @Giggsity</a>
+  </div>
+
+</body>
+</html>
