@@ -18,7 +18,6 @@
                     <div id="buttons">
                         <button id="clear"      value="clear"       onClick={this.props.handleFunctionPress}>A/C</button>
                         <button id="sign"       value="sign"        onClick={this.props.handleFunctionPress}>+/-</button>
-                        <button id="percent"    value="percent"     onClick={this.props.handleFunctionPress}>%</button>
                         <button id="divide"     value="divide"      onClick={this.props.handleFunctionPress}>&#247;</button>
                         <button id="seven"      value="7"           onClick={this.props.handleNumberPress}>7</button>
                         <button id="eight"      value="8"           onClick={this.props.handleNumberPress}>8</button>
@@ -66,9 +65,25 @@
 
                 if(this.state.numberDisplayed === '0') {
                     if(currentTarget.value === '0') {
+                    } else if(currentTarget.value === 'decimal') {
+                        if (this.state.numberDisplayed.includes('.')) {
+                        } else {
+                            let num = this.state.numberDisplayed + '.';
+                            this.setState(
+                                {numberDisplayed: num}
+                            )
+                        }
                     } else {
                         this.setState(
                             {numberDisplayed: currentTarget.value}
+                        )
+                    }
+                } else if(currentTarget.value === 'decimal') {
+                    if (this.state.numberDisplayed.includes('.')) {
+                    } else{
+                        let num = this.state.numberDisplayed + '.';
+                        this.setState(
+                            {numberDisplayed: num}
                         )
                     }
                 } else {
@@ -120,7 +135,7 @@
                          
                         this.setState(
                             {
-                                numberDisplayed: total,
+                                numberDisplayed: parseFloat(total.toFixed(4)).toString(),
                                 arithmetic: '',
                                 numberStored: ''
                             }

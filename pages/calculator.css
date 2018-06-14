@@ -8,9 +8,10 @@ body {
   }
 
 button {
-    background-color: yellow;
+    background-color: gold;
     font-family: 'Courier New', Courier, monospace;
     font-size: 35px;
+    border-radius: 10px;
 }
 
 #buttons {
@@ -28,6 +29,6 @@ button {
     text-align: right;
 }
 
-#zero {
+#zero, #clear {
     grid-column: 1 / 3;
 }
