@@ -1,0 +1,27 @@
+body {
+  padding-top: 20px;
+  background-color: navy;
+}
+
+.button {
+  background-color: gold;
+}
+
+.container {
+  max-width: 350px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 75px);
+  grid-template-rows: repeat(6, 75px);
+  grid-gap: 10px;
+}
+
+#display {
+  grid-column: 1 / 5;
+  background-color: silver;
+  text-align: right;
+}
+
+#zero {
+  grid-column: 1 / 3;
+}

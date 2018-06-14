@@ -1,0 +1,33 @@
+body {
+    padding-top: 20px;
+    background-color: navy;
+    max-width: 330px;
+    margin: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 55px;
+  }
+
+button {
+    background-color: yellow;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 35px;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 75px);
+    grid-template-rows: repeat(5, 75px);
+    grid-gap: 10px;
+    margin-top: 10px;
+}
+
+#display {
+    background-color: silver;
+    height: 75px;
+    width: 330px;
+    text-align: right;
+}
+
+#zero {
+    grid-column: 1 / 3;
+}
