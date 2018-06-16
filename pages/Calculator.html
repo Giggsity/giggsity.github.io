@@ -16,24 +16,24 @@
             render() {
                 return (
                     <div id="buttons">
-                        <button id="clear"      value="clear"       onClick={this.props.handleFunctionPress}>A/C</button>
-                        <button id="sign"       value="sign"        onClick={this.props.handleFunctionPress}>+/-</button>
-                        <button id="divide"     value="divide"      onClick={this.props.handleFunctionPress}>&#247;</button>
-                        <button id="seven"      value="7"           onClick={this.props.handleNumberPress}>7</button>
-                        <button id="eight"      value="8"           onClick={this.props.handleNumberPress}>8</button>
-                        <button id="nine"       value="9"           onClick={this.props.handleNumberPress}>9</button>
-                        <button id="multiply"   value="multiply"    onClick={this.props.handleFunctionPress}>&#215;</button>
-                        <button id="four"       value="4"           onClick={this.props.handleNumberPress}>4</button>
-                        <button id="five"       value="5"           onClick={this.props.handleNumberPress}>5</button>
-                        <button id="six"        value="6"           onClick={this.props.handleNumberPress}>6</button>
-                        <button id="subtract"   value="subtract"    onClick={this.props.handleFunctionPress}>-</button>
-                        <button id="one"        value="1"           onClick={this.props.handleNumberPress}>1</button>
-                        <button id="two"        value="2"           onClick={this.props.handleNumberPress}>2</button>
-                        <button id="three"      value="3"           onClick={this.props.handleNumberPress}>3</button>
-                        <button id="add"        value="add"         onClick={this.props.handleFunctionPress}>+</button>
-                        <button id="zero"       value="0"           onClick={this.props.handleNumberPress}>0</button>
-                        <button id="decimal"    value="decimal"     onClick={this.props.handleNumberPress}>.</button>
-                        <button id="equals"     value="equals"      onClick={this.props.handleFunctionPress}>=</button>
+                        <button id="clear"      value="clear"       onClick={this.props.handleKeyPress}>A/C</button>
+                        <button id="sign"       value="sign"        onClick={this.props.handleKeyPress}>+/-</button>
+                        <button id="divide"     value="divide"      onClick={this.props.handleKeyPress}>&#247;</button>
+                        <button id="seven"      value="7"           onClick={this.props.handleKeyPress}>7</button>
+                        <button id="eight"      value="8"           onClick={this.props.handleKeyPress}>8</button>
+                        <button id="nine"       value="9"           onClick={this.props.handleKeyPress}>9</button>
+                        <button id="multiply"   value="multiply"    onClick={this.props.handleKeyPress}>&#215;</button>
+                        <button id="four"       value="4"           onClick={this.props.handleKeyPress}>4</button>
+                        <button id="five"       value="5"           onClick={this.props.handleKeyPress}>5</button>
+                        <button id="six"        value="6"           onClick={this.props.handleKeyPress}>6</button>
+                        <button id="subtract"   value="subtract"    onClick={this.props.handleKeyPress}>-</button>
+                        <button id="one"        value="1"           onClick={this.props.handleKeyPress}>1</button>
+                        <button id="two"        value="2"           onClick={this.props.handleKeyPress}>2</button>
+                        <button id="three"      value="3"           onClick={this.props.handleKeyPress}>3</button>
+                        <button id="add"        value="add"         onClick={this.props.handleKeyPress}>+</button>
+                        <button id="zero"       value="0"           onClick={this.props.handleKeyPress}>0</button>
+                        <button id="decimal"    value="decimal"     onClick={this.props.handleKeyPress}>.</button>
+                        <button id="equals"     value="equals"      onClick={this.props.handleKeyPress}>=</button>
                     </div>
             )
             }
@@ -41,8 +41,9 @@
 
         class Display extends React.Component {
             render() {
+                let num = this.props.numberDisplayed;
                 return (
-                    <div id="display">{this.props.numberDisplayed}
+                    <div id="display">{num}
                     </div>
             )
             }
@@ -54,74 +55,125 @@
                 this.state = {
                     numberDisplayed: '0',
                     arithmetic: '',
-                    numberStored: ''
+                    numberStored: '',
+                    lastKeyPressed: ''
                 };
-                this.handleNumberPress = this.handleNumberPress.bind(this);
-                this.handleFunctionPress = this.handleFunctionPress.bind(this);
+                this.handleKeyPress = this.handleKeyPress.bind(this);
             }
 
-            handleNumberPress({currentTarget}) {
-                console.log(currentTarget.value);
-
-                if(this.state.numberDisplayed === '0') {
-                    if(currentTarget.value === '0') {
-                    } else if(currentTarget.value === 'decimal') {
-                        if (this.state.numberDisplayed.includes('.')) {
-                        } else {
-                            let num = this.state.numberDisplayed + '.';
-                            this.setState(
-                                {numberDisplayed: num}
-                            )
-                        }
-                    } else {
-                        this.setState(
-                            {numberDisplayed: currentTarget.value}
-                        )
-                    }
-                } else if(currentTarget.value === 'decimal') {
-                    if (this.state.numberDisplayed.includes('.')) {
-                    } else{
-                        let num = this.state.numberDisplayed + '.';
-                        this.setState(
-                            {numberDisplayed: num}
-                        )
-                    }
-                } else {
-                    let num = this.state.numberDisplayed + currentTarget.value;
-                    this.setState(
-                        {numberDisplayed: num}
-                    )
-                }
-            }
-
-            handleFunctionPress({currentTarget}) {
+            handleKeyPress({currentTarget}) {
                 console.log(currentTarget.value);
 
                 switch(currentTarget.value) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        if(this.state.numberDisplayed === '0') {
+                            this.setState(
+                            {
+                                numberDisplayed: currentTarget.value,
+                                lastKeyPressed: currentTarget.value
+                            }
+                        )
+                        } else {
+                            if(this.state.lastKeyPressed === 'add' || this.state.lastKeyPressed === 'subtract' || this.state.lastKeyPressed === 'multiply' || this.state.lastKeyPressed === 'divide') {
+                                this.setState(
+                                {
+                                    numberDisplayed: currentTarget.value,
+                                    lastKeyPressed: currentTarget.value
+                                }
+                            )
+                            } else {
+                                this.setState(
+                                {
+                                    numberDisplayed: this.state.numberDisplayed + currentTarget.value,
+                                    lastKeyPressed: currentTarget.value
+                                }
+                            )
+                            }
+                            }
+                        break;
+
+                    case 'decimal':
+                        if(!this.state.numberDisplayed.includes('.')) {
+                            this.setState(
+                                {
+                                    numberDisplayed: this.state.numberDisplayed + '.'
+                                }
+                            )
+                        }
+                        break;
                     case 'clear':
                         this.setState(
-                            {numberDisplayed: '0'}
-                        );
+                            {
+                                numberDisplayed: '0',
+                                arithmetic: '',
+                                numberStored: '',
+                                lastKeyPressed: ''
+                            }
+                        )
                         break;
                     case 'sign':
-                        let sign = this.state.numberDisplayed * -1;
+                            this.setState(
+                                {
+                                    numberDisplayed: this.state.numberDisplayed * -1
+                                }
+                            )
+                        break;
+                    case 'equals':
+                        let total = 0;
+                        if(this.state.arithmetic === 'add') {
+                            total = parseFloat(this.state.numberStored) + parseFloat(this.state.numberDisplayed);
+                        } else if(this.state.arithmetic === 'subtract') {
+                            total = parseFloat(this.state.numberStored) - parseFloat(this.state.numberDisplayed);
+                        } else if(this.state.arithmetic === 'multiply') {
+                            total = parseFloat(this.state.numberStored) * parseFloat(this.state.numberDisplayed);
+                        } else if(this.state.arithmetic === 'divide') {
+                            total = parseFloat(this.state.numberStored) / parseFloat(this.state.numberDisplayed);
+                        }
                         this.setState(
-                            {numberDisplayed: sign}
-                        );
+                            {
+                                numberDisplayed: parseFloat(total.toFixed(4)).toString(),
+                                numberStored: this.state.numberDisplayed,
+                                lastKeyPressed: currentTarget.value,
+                                arithmetic: ''
+                            }
+                        )
                         break;
                     case 'add':
                     case 'subtract':
                     case 'multiply':
                     case 'divide':
-                        this.setState(
-                            {
-                                numberStored: this.state.numberDisplayed,
-                                arithmetic: currentTarget.value,
-                                numberDisplayed: '0'
-                            }
-                        )
-                        break;
-                    case 'equals':
+                        if(this.state.numberStored === '') {
+                            this.setState(
+                                {
+                                    arithmetic: currentTarget.value,
+                                    lastKeyPressed: currentTarget.value,
+                                    numberStored: this.state.numberDisplayed
+                                }
+                            )
+                        } else if(this.state.arithmetic !== ''){
+                            this.setState(
+                                {
+                                    arithmetic: currentTarget.value
+                                }
+                            )
+                        } else if(this.state.lastKeyPressed === 'equals') {
+                            this.setState(
+                                {
+                                    arithmetic: currentTarget.value,
+                                    lastKeyPressed: currentTarget.value,
+                                    numberStored: this.state.numberDisplayed
+                                }
+                            )
+                        } else {
                             let total = 0;
                             if(this.state.arithmetic === 'add') {
                                 total = parseFloat(this.state.numberStored) + parseFloat(this.state.numberDisplayed);
@@ -132,23 +184,24 @@
                             } else if(this.state.arithmetic === 'divide') {
                                 total = parseFloat(this.state.numberStored) / parseFloat(this.state.numberDisplayed);
                             }
-                         
-                        this.setState(
+                            this.setState(
                             {
-                                numberDisplayed: parseFloat(total.toFixed(4)).toString(),
-                                arithmetic: '',
-                                numberStored: ''
+                                numberStored: total,
+                                numberDisplayed: total,
+                                arithmetic: currentTarget.value,
+                                lastKeyPressed: currentTarget.value
                             }
                         )
+                        }
                         break;
                 }
             }
-
+                
             render() {
                 return (
                     <div id="container">
                         <Display numberDisplayed={this.state.numberDisplayed}/>
-                        <Button handleFunctionPress={this.handleFunctionPress} handleNumberPress={this.handleNumberPress}/>
+                        <Button handleKeyPress={this.handleKeyPress} />
                     </div>
             )
             }
