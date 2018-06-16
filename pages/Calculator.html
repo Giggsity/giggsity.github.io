@@ -42,6 +42,9 @@
         class Display extends React.Component {
             render() {
                 let num = this.props.numberDisplayed;
+                if(num.length > 10) {
+
+                }
                 return (
                     <div id="display">{num}
                     </div>
@@ -160,11 +163,24 @@
                                 }
                             )
                         } else if(this.state.arithmetic !== ''){
+                            let total = 0;
+                            if(this.state.arithmetic === 'add') {
+                                total = parseFloat(this.state.numberStored) + parseFloat(this.state.numberDisplayed);
+                            } else if(this.state.arithmetic === 'subtract') {
+                                total = parseFloat(this.state.numberStored) - parseFloat(this.state.numberDisplayed);
+                            } else if(this.state.arithmetic === 'multiply') {
+                                total = parseFloat(this.state.numberStored) * parseFloat(this.state.numberDisplayed);
+                            } else if(this.state.arithmetic === 'divide') {
+                                total = parseFloat(this.state.numberStored) / parseFloat(this.state.numberDisplayed);
+                            }
                             this.setState(
-                                {
-                                    arithmetic: currentTarget.value
-                                }
-                            )
+                            {
+                                numberStored: total,
+                                numberDisplayed: total,
+                                arithmetic: currentTarget.value,
+                                lastKeyPressed: currentTarget.value
+                            }
+                        )
                         } else if(this.state.lastKeyPressed === 'equals') {
                             this.setState(
                                 {
