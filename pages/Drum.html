@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drum Machine</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/drum.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class Display extends React.Component {
+            render() {
+                return (
+                    <div id="display">
+                    </div>
+            )
+            }
+        }
+
+        class DrumPad extends React.Component {
+            render() {
+                return (
+                    <div id="drum-pad">
+                        <button id="q"      value="q"       onClick={this.props.handleKeyPress}>Q</button>
+                        <button id="w"      value="w"       onClick={this.props.handleKeyPress}>W</button>
+                        <button id="e"      value="e"       onClick={this.props.handleKeyPress}>E</button>
+                        <button id="a"      value="a"       onClick={this.props.handleKeyPress}>A</button>
+                        <button id="s"      value="s"       onClick={this.props.handleKeyPress}>S</button>
+                        <button id="d"      value="d"       onClick={this.props.handleKeyPress}>D</button>
+                        <button id="z"      value="z"       onClick={this.props.handleKeyPress}>Z</button>
+                        <button id="x"      value="x"       onClick={this.props.handleKeyPress}>X</button>
+                        <button id="c"      value="c"       onClick={this.props.handleKeyPress}>C</button>
+                    </div>
+                )
+            }
+        }
+
+        class DrumMachine extends React.Component {
+            render() {
+                return (
+                    <div id="drum-machine">
+                        <Display />
+                        <DrumPad />
+                    </div>
+                )
+            }
+        }
+
+      ReactDOM.render(
+        <DrumMachine />,
+        document.getElementById('root')
+      );
+
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      To set up a production-ready React build environment, follow these instructions:
+      * https://reactjs.org/docs/add-react-to-a-new-app.html
+      * https://reactjs.org/docs/add-react-to-an-existing-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      * https://reactjs.org/docs/react-without-jsx.html
+      * https://reactjs.org/docs/cdn-links.html
+    -->
+  </body>
+</html>

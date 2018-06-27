@@ -1,0 +1,28 @@
+body {
+  padding-top: 20px;
+  background-color: navy;
+  max-width: 320px;
+  margin: auto;
+}
+
+button {
+  background-color: gold;
+}
+
+#drum-machine {
+    
+}
+
+#drum-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  grid-gap: 10px;
+}
+
+#display {
+    background-color: silver;
+    height: 100px;
+    width: 320px;
+    margin-bottom: 20px;
+}
